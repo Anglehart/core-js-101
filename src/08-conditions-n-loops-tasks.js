@@ -385,8 +385,19 @@ function toNaryString(num, n) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  if (!pathes.every((el) => el[0] === '/')) return '';
+  const arr = pathes.map((item) => item.slice(1).split('/'));
+  const res = [];
+  for (let i = 0; i < arr[0].length; i += 1) {
+    const nArr = [];
+    arr.forEach((item) => {
+      nArr.push(item[i]);
+    });
+    if (nArr.every((n) => n === nArr[0])) res.push(nArr[0]);
+  }
+  if (res.length === 0) return '/';
+  return `/${res.join('/')}/`;
 }
 
 
@@ -408,8 +419,19 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const rm1 = m1.length;
+  const rm2 = m2.length;
+  const result = [];
+  for (let i = 0; i < rm1; i += 1) result[i] = [];
+  for (let k = 0; k < rm1; k += 1) {
+    for (let i = 0; i < rm1; i += 1) {
+      let temp = 0;
+      for (let l = 0; l < rm2; l += 1) temp += m1[i][l] * m2[l][k];
+      result[i][k] = temp;
+    }
+  }
+  return result;
 }
 
 
@@ -443,8 +465,14 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(pos) {
+  for (let i = 0; i < 3; i += 1) {
+    if (pos[i][0] === pos[i][1] && pos[i][0] === pos[i][2] && pos[i][0]) return `${pos[i][0]}`;
+    if (pos[0][i] === pos[1][i] && pos[0][i] === pos[2][i] && pos[0][i]) return `${pos[0][i]}`;
+    if (pos[0][0] === pos[1][1] && pos[0][0] === pos[2][2] && pos[1][1]) return `${pos[1][1]}`;
+    if (pos[0][2] === pos[1][1] && pos[0][2] === pos[2][0] && pos[1][1]) return `${pos[1][1]}`;
+  }
+  return undefined;
 }
 
 
